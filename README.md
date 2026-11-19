@@ -1,5 +1,9 @@
 # tercet
 
+[![npm](https://img.shields.io/npm/v/@cantoramann/tercet)](https://www.npmjs.com/package/@cantoramann/tercet)
+[![CI](https://github.com/cantoramann/tercet/actions/workflows/ci.yml/badge.svg)](https://github.com/cantoramann/tercet/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/@cantoramann/tercet)](LICENSE)
+
 A small, fast, secure Next.js framework for publishing poems.
 
 | | |
