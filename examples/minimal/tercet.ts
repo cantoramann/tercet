@@ -1,5 +1,5 @@
-import { createTercet, defineConfig } from "tercet";
-import { fs } from "tercet/storage";
+import { createTercet, defineConfig } from "@cantoramann/tercet";
+import { fs } from "@cantoramann/tercet/storage";
 
 export const tercet = createTercet(
   defineConfig({

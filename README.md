@@ -4,7 +4,7 @@ A small, fast, secure Next.js framework for publishing poems.
 
 | | |
 | --- | --- |
-| [`packages/tercet`](packages/tercet) | The framework, published to npm as `tercet`. Docs: [packages/tercet/README.md](packages/tercet/README.md). |
+| [`packages/tercet`](packages/tercet) | The framework, published to npm as [`@cantoramann/tercet`](https://www.npmjs.com/package/@cantoramann/tercet). Docs: [packages/tercet/README.md](packages/tercet/README.md). |
 | [`examples/minimal`](examples/minimal) | The smallest complete site: English, disk storage, custom theme, no S3. |
 
 ## Development

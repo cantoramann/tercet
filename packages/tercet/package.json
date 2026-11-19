@@ -1,5 +1,5 @@
 {
-  "name": "tercet",
+  "name": "@cantoramann/tercet",
   "version": "0.4.0",
   "description": "A small, secure Next.js framework for publishing poetry.",
   "keywords": [

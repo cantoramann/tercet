@@ -121,7 +121,7 @@ export function withTercet(nextConfig = {}, options = {}) {
 }
 
 const SDK = "@aws-sdk/client-s3";
-const MISSING_SDK = "tercet/missing-s3-sdk";
+const MISSING_SDK = "@cantoramann/tercet/missing-s3-sdk";
 
 /**
  * The AWS SDK is an optional peer dependency. When the site has not installed

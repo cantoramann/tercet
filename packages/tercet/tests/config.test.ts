@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { securityHeaders, withTercet } from "tercet/next";
+import { securityHeaders, withTercet } from "@cantoramann/tercet/next";
 import { resolveConfig } from "../src/config.js";
 import { format, mergeMessages, plural } from "../src/i18n/index.js";
 import { en } from "../src/i18n/locales/en.js";
@@ -58,7 +58,7 @@ describe("withTercet", () => {
     try {
       process.chdir(new URL("../../../examples/minimal", import.meta.url).pathname);
       const config = withTercet();
-      expect(config.turbopack?.resolveAlias?.["@aws-sdk/client-s3"]).toBe("tercet/missing-s3-sdk");
+      expect(config.turbopack?.resolveAlias?.["@aws-sdk/client-s3"]).toBe("@cantoramann/tercet/missing-s3-sdk");
       // The package itself has the SDK as a dev dependency.
       process.chdir(new URL("..", import.meta.url).pathname);
       expect(withTercet().turbopack).toBeUndefined();

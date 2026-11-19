@@ -14,11 +14,15 @@ Requires Next.js 16, React 19.3 and Node 22.18+.
 
 ## A site in ten small files
 
+```bash
+npm install @cantoramann/tercet
+```
+
 A site is a Next.js app whose route files each re-export one piece of the framework.
 
 ```ts
 // tercet.ts
-import { createTercet, defineConfig } from "tercet";
+import { createTercet, defineConfig } from "@cantoramann/tercet";
 
 export const config = defineConfig({
   title: "Night Notes",
@@ -32,7 +36,7 @@ export const tercet = createTercet(config);
 
 ```ts
 // next.config.ts
-import { withTercet } from "tercet/next";
+import { withTercet } from "@cantoramann/tercet/next";
 export default withTercet();
 ```
 
@@ -176,7 +180,7 @@ Poems live in a folder on disk unless you say otherwise. **S3 is optional**: not
 ### In code
 
 ```ts
-import { fs, s3 } from "tercet/storage";
+import { fs, s3 } from "@cantoramann/tercet/storage";
 
 storage: fs(),                                     // the contentDir from next.config (default content/poems)
 storage: fs("/srv/poems"),                         // any other folder
