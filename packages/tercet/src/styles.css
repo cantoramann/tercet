@@ -1,0 +1,386 @@
+/* ------------------------------------------------------------------
+   Tokens
+   Colours are light-dark(light, dark) pairs. The OS preference decides,
+   unless the reader picks a theme, which sets [data-theme] on <html>.
+------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+  /* Colours (--bg, --fg, --muted, --faint, --border, --mark, --selection)
+     come from the `theme` config, rendered by the layout with zero
+     specificity: override them here or in a site stylesheet freely. */
+  --focus: var(--fg);
+
+  /* --tercet-font comes from the site (usually next/font); otherwise theme.font. */
+  --font-serif: var(--tercet-font, var(--tercet-font-stack, Georgia, serif));
+  --measure: 36rem;
+  --gutter: clamp(1.25rem, 5vw, 1.5rem);
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --slow: 600ms;
+}
+
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--slow) var(--ease), color var(--slow) var(--ease);
+}
+
+h1, h2, p, ol, ul { margin: 0; padding: 0; }
+h1, h2 { font-weight: 400; text-wrap: balance; }
+ol, ul { list-style: none; }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+
+::selection { background: var(--selection); color: var(--fg); }
+::placeholder { color: var(--muted); opacity: 1; }
+
+:focus-visible {
+  outline: 1px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+mark {
+  background: var(--mark);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 0.05em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------
+   Layout
+------------------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: 1rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg);
+  font-size: 0.875rem;
+  transform: translateY(-200%);
+  z-index: 10;
+}
+.skip-link:focus-visible { transform: none; }
+
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: calc(var(--measure) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 4rem var(--gutter) 3rem;
+}
+.main:focus { outline: none; }
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 1.5rem var(--gutter) 2rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+.footer a:hover, .footer-button:hover { color: var(--fg); }
+.footer-button { transition: color 300ms var(--ease); }
+.footer-sep { color: var(--faint); }
+
+/* Small uppercase labels: back link, theme toggle, writer actions. */
+.label {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 300ms var(--ease), opacity 300ms var(--ease);
+}
+a.label:hover, button.label:hover:not(:disabled) { color: var(--fg); }
+.label:disabled { opacity: 0.35; }
+
+/* Taller hit area without changing the look (WCAG 2.5.8). */
+.label, .footer a, .footer-button { display: inline-block; padding-block: 0.375rem; }
+
+/* ------------------------------------------------------------------
+   Home
+------------------------------------------------------------------- */
+
+.intro { margin: 2rem 0 4.5rem; }
+.intro h1 { font-size: 2rem; line-height: 1.2; letter-spacing: 0.02em; margin-bottom: 2rem; }
+
+.tagline {
+  font-size: 0.9375rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.tagline span { display: block; }
+
+.search { position: relative; margin-bottom: 3.5rem; }
+
+.search-input {
+  width: 100%;
+  padding: 0 1.75rem 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  caret-color: var(--faint);
+  border-radius: 0;
+  transition: border-color 300ms var(--ease);
+  appearance: none;
+}
+.search-input:focus { outline: none; border-color: var(--muted); }
+.search-input:focus-visible { outline: none; }
+.search-input::-webkit-search-cancel-button { appearance: none; }
+
+.search-key, .search-clear {
+  position: absolute;
+  right: 0;
+  top: 0.125rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.search-key {
+  padding: 0 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-style: normal;
+  pointer-events: none;
+}
+.search-input:focus ~ .search-key { opacity: 0; }
+.search-clear { font-size: 1.125rem; line-height: 1; padding: 0.125rem 0.25rem; }
+.search-clear:hover { color: var(--fg); }
+
+.search-status {
+  min-height: 1.25rem;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.poem-list li { border-bottom: 1px solid var(--border); }
+
+.poem-link {
+  display: block;
+  padding: 1rem 0;
+}
+.poem-link-title {
+  display: block;
+  font-size: 1.0625rem;
+  letter-spacing: 0.025em;
+}
+.poem-link-excerpt {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  transition: opacity 300ms var(--ease);
+}
+.poem-link-excerpt:first-letter { text-transform: uppercase; }
+.poem-link:hover .poem-link-excerpt { opacity: 0.7; }
+.poem-link:focus-visible { outline-offset: 2px; }
+
+/* ------------------------------------------------------------------
+   Poem
+------------------------------------------------------------------- */
+
+.poem { max-width: 32rem; margin: 0 auto; padding-top: 2rem; }
+.poem .label { margin-bottom: 3.5rem; }
+
+.poem-title {
+  font-size: 1.75rem;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  margin-bottom: 3rem;
+}
+
+.poem-body {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  letter-spacing: 0.015em;
+  hanging-punctuation: first;
+}
+.stanza + .stanza { margin-top: 2.25rem; }
+
+/* Long lines wrap with a hanging indent, as in printed verse. */
+.line {
+  display: block;
+  padding-left: 1.5em;
+  text-indent: -1.5em;
+}
+
+.poem-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 32rem;
+  margin: 5rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.poem-nav a { display: block; max-width: 48%; padding-block: 0.25rem; }
+.poem-nav a:hover .poem-nav-title { color: var(--fg); }
+.poem-nav-next { margin-left: auto; text-align: right; }
+.poem-nav-dir { display: block; }
+.poem-nav-title {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  transition: color 300ms var(--ease);
+}
+
+/* ------------------------------------------------------------------
+   Writer
+------------------------------------------------------------------- */
+
+.writer { display: flex; flex-direction: column; min-height: 70vh; }
+.writer > .label { align-self: flex-start; margin-bottom: 3rem; }
+
+.writer-title {
+  width: 100%;
+  font-size: 1.75rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 2.5rem;
+}
+.writer-body {
+  width: 100%;
+  min-height: 50vh;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  letter-spacing: 0.015em;
+  resize: none;
+  field-sizing: content;
+}
+.writer-title:focus, .writer-body:focus { outline: none; }
+
+.writer-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.writer-meta { margin-right: auto; }
+.writer-token {
+  width: 12rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+.writer-token:focus { outline: none; border-color: var(--muted); }
+.writer-message { width: 100%; }
+
+/* ------------------------------------------------------------------
+   Not found
+------------------------------------------------------------------- */
+
+.not-found { padding-top: 2rem; }
+.not-found h1 { font-size: 1.75rem; margin: 3.5rem 0 1.5rem; }
+.not-found p { color: var(--muted); font-style: italic; }
+
+/* ------------------------------------------------------------------
+   Motion
+------------------------------------------------------------------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rise { animation: rise 900ms var(--ease) both; }
+.poem-list li { animation: rise 700ms var(--ease) both; animation-delay: calc(min(var(--i, 0), 12) * 35ms); }
+.poem-list.instant li { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Forced colours (Windows High Contrast) and print
+------------------------------------------------------------------- */
+
+@media (forced-colors: active) {
+  mark { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+  .search-input, .poem-list li, .poem-nav, .writer-bar { border-color: CanvasText; }
+}
+
+@media print {
+  :root { color-scheme: light; --fg: #000; --bg: #fff; }
+  .footer, .skip-link, .poem .label, .poem-nav { display: none; }
+  .main { padding: 0; max-width: none; }
+  .poem { padding: 0; }
+  .stanza { break-inside: avoid; }
+}
+
+.writer-publish { display: inline-flex; align-items: baseline; gap: 0.75rem; }
+.writer-message a { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: var(--faint); }
